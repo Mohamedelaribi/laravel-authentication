@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use illuminate\support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
-
+use App\Models\User;
 class LoginController extends Controller
 {
 
@@ -42,8 +42,11 @@ class LoginController extends Controller
     }
     public function handleGoogleCallback(){
 
-        $user = Socialite::driver('google')->stateless()->user();
-
-          return view('home');
+      $user = Socialite::driver('google')->stateless()->user();
+      
+      $this->_registerorLoginUser($user);
+      return redirect()->route('home');
         }
+
 }
+
